@@ -1,0 +1,47 @@
+{% extends 'test_site/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">{{ dance_class.name }}</h1>
+                <h6 class="card-subtitle mb-3 text-muted">Уровень: {{ dance_class.get_level_display }}</h6>
+                
+                <div class="mb-4">
+                    <h4>Описание</h4>
+                    <p>{{ dance_class.description }}</p>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h4>Информация о классе</h4>
+                        <ul class="list-unstyled">
+                            <li><strong>Инструктор:</strong> {{ dance_class.instructor }}</li>
+                            <li><strong>Расписание:</strong> {{ dance_class.schedule }}</li>
+                            <li><strong>Цена:</strong> {{ dance_class.price }} руб.</li>
+                            <li><strong>Максимальное количество студентов:</strong> {{ dance_class.max_students }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Что нужно знать</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Приходите за 15 минут до начала занятия</li>
+                    <li class="list-group-item">Возьмите с собой удобную спортивную одежду</li>
+                    <li class="list-group-item">Не забудьте бутылку воды</li>
+                    <li class="list-group-item">Для начинающих: специальная обувь не требуется</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,129 @@
+{% extends 'test_site/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5 animate__animated animate__fadeIn">Наши курсы</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card animate__animated animate__fadeIn">
+                <div class="card-body">
+                    <h2 class="card-title">Направления обучения</h2>
+                    <p class="card-text">Мы предлагаем широкий спектр танцевальных направлений для всех возрастов и уровней подготовки. Каждый найдет для себя подходящий курс!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        {% for dance_class in page_obj %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 animate__animated animate__fadeIn dance-class-card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ dance_class.name }}</h3>
+                    <h6 class="card-subtitle mb-3 text-muted">Уровень: {{ dance_class.get_level_display }}</h6>
+                    <p class="card-text">{{ dance_class.description }}</p>
+                    <div class="mb-3">
+                        <h5>Детали курса:</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-user-tie me-2"></i><strong>Инструктор:</strong> {{ dance_class.instructor }}</li>
+                            <li><i class="fas fa-clock me-2"></i><strong>Расписание:</strong> {{ dance_class.schedule }}</li>
+                            <li><i class="fas fa-ruble-sign me-2"></i><strong>Стоимость:</strong> {{ dance_class.price }} руб.</li>
+                            <li><i class="fas fa-users me-2"></i><strong>Группа:</strong> до {{ dance_class.max_students }} человек</li>
+                        </ul>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'class_detail' dance_class.id %}" class="btn btn-primary">
+                            <i class="fas fa-info-circle me-2"></i>Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-md-12">
+            <div class="alert alert-info animate__animated animate__fadeIn">
+                <i class="fas fa-info-circle me-2"></i>В данный момент нет доступных курсов. Пожалуйста, проверьте позже.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav aria-label="Навигация по страницам" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="Первая">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Предыдущая">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Следующая">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Последняя">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card animate__animated animate__fadeIn">
+                <div class="card-body text-center py-5">
+                    <h2 class="card-title mb-4">Как начать обучение?</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 mb-4">
+                            <div class="text-center">
+                                <i class="fas fa-search fa-5x mb-3 text-primary animate__animated animate__fadeInDown"></i>
+                                <h4>1. Выберите курс</h4>
+                                <p class="px-3">Изучите наши направления и выберите подходящий курс</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="text-center">
+                                <i class="fas fa-user-plus fa-5x mb-3 text-primary animate__animated animate__fadeInDown delay-1"></i>
+                                <h4>2. Зарегистрируйтесь</h4>
+                                <p class="px-3">Создайте аккаунт на сайте для доступа к записи на курсы</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <div class="text-center">
+                                <i class="fas fa-calendar-check fa-5x mb-3 text-primary animate__animated animate__fadeInDown delay-2"></i>
+                                <h4>3. Запишитесь на занятие</h4>
+                                <p class="px-3">Выберите удобное время и начните обучение</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

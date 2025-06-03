@@ -1,0 +1,53 @@
+{% extends 'test_site/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card animate__animated animate__fadeIn">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Запись на классы</h1>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} animate__animated animate__fadeIn">
+                                <i class="fas fa-info-circle me-2"></i>{{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.fields.dance_classes.queryset.exists %}
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <div class="mb-4">
+                                <label class="form-label">{{ form.dance_classes.label }}</label>
+                                <div class="form-check">
+                                    {{ form.dance_classes }}
+                                </div>
+                                {% if form.dance_classes.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.dance_classes.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Записаться на выбранные классы
+                                </button>
+                            </div>
+                        </form>
+                    {% else %}
+                         <div class="alert alert-info animate__animated animate__fadeIn">
+                            <i class="fas fa-info-circle me-2"></i>В данный момент нет доступных курсов для записи.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
